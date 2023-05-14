@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-function Thumbnails() {
+function Thumbnails({ count }) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('http://jsonplaceholder.typicode.com/photos?_page=0&_limit=10')
+    const url = 'http://jsonplaceholder.typicode.com/photos?_page=' + count + '&_limit=10';
+    fetch(url)
       .then(response => response.json())
       .then(data => setData(data));
-  }, []);
+  }, [count]);
 
   const getFileNameFromPath = (path) => {
     const segments = path.split("/");
@@ -27,7 +28,5 @@ function Thumbnails() {
     </div>
   );
 }
-
-
 
 export default Thumbnails;

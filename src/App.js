@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Photo from './pages/Photo';
 
 function App() {
+
   return (
     <Router>
       <Routes>
