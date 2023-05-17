@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import ImageLoader from './ImageLoader';
 
-function ThumbnailItems({ count }) {
-  const [data, setData] = useState([]);
+function ThumbnailItems({ count, itemsPerPage }) {
+  const [data, setData] = useState([]);  
 
   useEffect(() => {
-    const url = 'http://jsonplaceholder.typicode.com/photos?_page=' + count + '&_limit=10';
+    const url = 'http://jsonplaceholder.typicode.com/photos?_page=' + count + '&_limit=' + itemsPerPage;
     fetch(url)
       .then(response => response.json())
       .then(data => setData(data))
       .catch(err => console.error("[Fetch Error]:", err));
-  }, [count]);
+  }, [count, itemsPerPage]);
 
   function getPhotoNameFromUrl(url) {
     var segments = url.split("/");
@@ -18,12 +18,14 @@ function ThumbnailItems({ count }) {
   }
 
   return (
-    <div class="thumbnail-list">
+    <div className="thumbnail-list">
       {data.map(item => (
-        <div class = "thumbnail" key={item.id}>          
-          <a href = {"photo/" + getPhotoNameFromUrl(item.url)}>          
-          <ImageLoader imageUrl={item.thumbnailUrl} size="150" alt={item.title} />
-          <p>{item.title}</p>
+        <div className="thumbnail-item" key={item.id}>
+          <a href={"photo/" + getPhotoNameFromUrl(item.url)}>
+            <div className="thumbnail-image">
+            <ImageLoader imageUrl={item.thumbnailUrl} size="150" alt={item.title} borderRadius="10" />
+            </div>
+            <p>{item.title}</p>
           </a>
         </div>
       ))}

@@ -1,13 +1,13 @@
 import React from 'react';
 
-function PageSelector({ count, setCount, onPageChange }) {
+function PageSelector({ count, setCount, onPageChange, lastPage }) {
 
   function handleInputFieldChange(event) {
     handleNumberChange(parseInt(event.target.value));
   }
 
   function handleNumberChange(number) {
-    setCount(clamp(number, 1, 500));
+    setCount(clamp(number, 1, lastPage));
   }
 
   function clamp(value, min, max) {
@@ -15,11 +15,15 @@ function PageSelector({ count, setCount, onPageChange }) {
   }
 
   return (
-    <div class = "page-selector-container">
-      <div class = "page-selector">
-        <button onClick={() => handleNumberChange(count - 1)}>Prev</button>
-        <input type="text" value={count} onChange={handleInputFieldChange} inputMode="numeric" pattern="[0-9]* browsers" />
-        <button onClick={() => handleNumberChange(count + 1)}>Next</button>
+    <div className="page-selector-container">
+      <div className="page-selector">
+        <button onClick={() => handleNumberChange(count - 1)} className="button arrow-button-left">
+          <span className="arrow-left-icon"></span>
+        </button>
+        <input className="page-input" type="text" value={count} onChange={handleInputFieldChange} inputMode="numeric" pattern="[0-9]* browsers" />
+        <button onClick={() => handleNumberChange(count + 1)} className="button arrow-button-right">
+          <span className="arrow-right-icon"></span>
+        </button>
       </div>
     </div>
   );
