@@ -13,7 +13,7 @@ const Home = () => {
 
   function calculateItemsPerPage() {
     const windowWidth = window.innerWidth;
-    const divWidth = 190;
+    const divWidth = 200;
     const rows = 2;
     return Math.floor(windowWidth / divWidth) * rows;
   }

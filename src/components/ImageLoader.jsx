@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 function ImageLoader({ imageUrl, size, alt, borderRadius }) { // size is used for both width and height
   const [isLoading, setIsLoading] = useState(true);
+  const [cacheBuster, setCacheBuster] = useState('');
 
   useEffect(() => {
     setIsLoading(true);
+    setCacheBuster(Date.now()); // Update cacheBuster with the current timestamp
   }, [imageUrl]);
 
   function handleImageLoad() {
@@ -28,7 +30,7 @@ function ImageLoader({ imageUrl, size, alt, borderRadius }) { // size is used fo
       }}
     >
       <img
-        src={imageUrl}
+        src={`${imageUrl}?${cacheBuster}`}
         alt={alt}
         onLoad={handleImageLoad}
         style={{
