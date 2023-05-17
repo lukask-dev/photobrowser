@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Thumbnails from '../components/Thumbnails';
-import PageNumberInput from '../components/PageNumberInput';
+import ThumbnailList from '../components/ThumbnailList';
+import PageSelector from '../components/PageSelector';
 
 const Home = () => { 
   const [count, setCount] = useState(1);
@@ -11,9 +11,10 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Welcome!</h1>
-      <PageNumberInput count={count} setCount={setCount} onPageChange={handlePageChange} />
-      <Thumbnails count={count} />
+      <h1>Photo Browser 2023</h1>
+      <PageSelector count={count} setCount={setCount} onPageChange={handlePageChange} />
+      <ThumbnailList count={count} />
+      <PageSelector count={count} setCount={setCount} onPageChange={handlePageChange} />
     </div>
   );
 };
