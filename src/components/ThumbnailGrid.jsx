@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ImageLoader from './ImageLoader';
 import { useLocation } from 'react-router-dom';
 
-function ThumbnailGrid({ page, itemsPerPage, setParamInNavigation }) {
+function ThumbnailGrid({ page, itemsPerPage, gridWith, itemMargin }) {
   const [data, setData] = useState([]);
   const location = useLocation();
 
@@ -29,18 +29,32 @@ function ThumbnailGrid({ page, itemsPerPage, setParamInNavigation }) {
   }
 
   return (
-    <div className="thumbnail-grid">
-      {data.map(item => (
-        <div className="thumbnail-item" key={item.id}>
-          <a href={getPhotoLink(item.url)}>
-            <div className="thumbnail-image">
-              <ImageLoader imageUrl={item.thumbnailUrl} size="150" alt={item.title} borderRadius="10" />
-            </div>
-            <p>{item.title}</p>
-          </a>
-        </div>
-      ))}
-    </div>
+    <div className="thumbnail-grid-container" >
+      <div
+        className="thumbnail-grid"
+        style={{
+          width: `${gridWith}px`
+        }}
+      >
+        {data.map(item => (
+          <div
+          className="thumbnail-item"
+          key={item.id}
+          style={{
+            marginLeft: `${itemMargin}px`,
+            marginRight: `${itemMargin}px`
+          }}
+          >
+            <a href={getPhotoLink(item.url)}>
+              <div className="thumbnail-image">
+                <ImageLoader imageUrl={item.thumbnailUrl} size="150" alt={item.title} borderRadius="10" />
+              </div>
+              <p>{item.title}</p>
+            </a>
+          </div>
+        ))}
+      </div>
+    </div >
   );
 }
 

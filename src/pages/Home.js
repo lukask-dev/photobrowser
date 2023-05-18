@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ThumbnailGrid from '../components/ThumbnailGrid';
 import PageSelector from '../components/PageSelector';
@@ -8,7 +8,32 @@ const Home = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
-  const itemsPerPage = 16;//calculateItemsPerPage();
+
+  const itemsPerPage = 32;
+  const divWidth = 190;
+  const [gridWidth, setGridWidth] = useState(divWidth * calculateItemsPerRow());
+
+  function calculateItemsPerRow () {
+    const maxDivs = Math.floor(window.innerWidth / divWidth);
+    let maxDivsforLayout = 2;
+    while (maxDivsforLayout * 2 <= maxDivs) {
+      maxDivsforLayout *= 2;
+    }
+    return maxDivsforLayout;
+  }
+
+  useEffect(() => {
+    const handleResize = () => {
+      setGridWidth(divWidth * calculateItemsPerRow());
+    };
+
+    window.addEventListener('resize', handleResize);    
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const lastPage = Math.ceil(5000 / itemsPerPage);
 
   let page = null;
@@ -34,6 +59,7 @@ const Home = () => {
     else photo = null;
   }
 
+  // not used any more: fixed number of items per page so that users can share links to pages with each other
   // function calculateItemsPerPage() {
   //   const windowWidth = window.innerWidth;
   //   const divWidth = 190;
@@ -78,12 +104,12 @@ const Home = () => {
   return (
     <div>
       <div className='logo-container'>
-        <a href = "/">
-        <h1>Photo Browser 2023</h1>
+        <a href="/">
+          <h1>Photo Browser 2023</h1>
         </a>
       </div>
       <PageSelector page={page} updatePageNumber={updatePageNumber} lastPage={lastPage} />
-      <ThumbnailGrid page={page} itemsPerPage={itemsPerPage} setParamInNavigation={setParamInNavigation} />
+      <ThumbnailGrid page={page} itemsPerPage={itemsPerPage} gridWith={gridWidth} />
       <PageSelector page={page} updatePageNumber={updatePageNumber} lastPage={lastPage} />
       {(photo !== null) && <Photo name={photo} />}
     </div>
