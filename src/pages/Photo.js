@@ -1,14 +1,13 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import ImageLoader from '../components/ImageLoader';
 
-const Photo = () => {
-  const { name } = useParams();
+function Photo({ name }) {
 
   return (
-    <div>
-      <h1>Photo Page</h1>
-      <ImageLoader imageUrl={"https://via.placeholder.com/600/" + name} size="600" alt="" />
+    <div className="overlay">
+      <div className="photo-container">
+        <ImageLoader imageUrl={"https://via.placeholder.com/600/" + name} size="600" alt="" />
+      </div>
     </div>
   );
 };

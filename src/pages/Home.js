@@ -1,58 +1,79 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ThumbnailGrid from '../components/ThumbnailGrid';
 import PageSelector from '../components/PageSelector';
+import Photo from './Photo';
 
 const Home = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const searchParams = new URLSearchParams(location.search);  
-  const itemsPerPage = calculateItemsPerPage();
+  const searchParams = new URLSearchParams(location.search);
+  const itemsPerPage = 16;//calculateItemsPerPage();
   const lastPage = Math.ceil(5000 / itemsPerPage);
 
   let page = null;
+  let photo = null;
 
-  validatePageParam();
-  validatePhotoParam();
+  handlePageParam();
+  handlePhotoParam();
 
-  function validatePageParam() {
+  function handlePageParam() {
     const pageParam = searchParams.get('page');
-    if (Number.isInteger(Number(pageParam))
-      && Number(pageParam) >= 1
-      && Number(pageParam) <= lastPage) {
-      page = pageParam;
+    if (Number.isInteger(Number(pageParam))) {
+      page = clamp(pageParam, 1, lastPage);
     }
     else {
       page = 1;
-      updateParamInNavigation("page", page);
-    } 
+    }
   }
 
-  function validatePhotoParam() {
+  function handlePhotoParam() {
     const photoParam = searchParams.get('photo');
+    const isValidPhoto = typeof photoParam === 'string' && photoParam.length > 0;
+    if (isValidPhoto) photo = photoParam;
+    else photo = null;
   }
 
-  function calculateItemsPerPage() {
-    const windowWidth = window.innerWidth;
-    const divWidth = 190;
-    const rows = 2;
-    return Math.floor(windowWidth / divWidth) * rows;
-  }
+  // function calculateItemsPerPage() {
+  //   const windowWidth = window.innerWidth;
+  //   const divWidth = 190;
+  //   const rows = 2;
+  //   return Math.floor(windowWidth / divWidth) * rows;
+  // }
 
   function updatePageNumber(newPage) {
     newPage = clamp(newPage, 1, lastPage);
-    updateParamInNavigation("page", newPage);
+    setParamInNavigation("page", newPage);
   }
 
   function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
   }
 
-  function updateParamInNavigation(paramName, paramValue) {
+  function setParamInNavigation(paramName, paramValue) {
     const searchParams = new URLSearchParams(location.search);
     searchParams.set(paramName, paramValue);
     navigate(`${location.pathname}?${searchParams.toString()}`);
   }
+
+  function deleteParamInNavigation(paramName) {
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.delete(paramName);
+    navigate(`${location.pathname}?${searchParams.toString()}`);
+  }
+
+  useEffect(() => {
+    const handeKeyboardInput = (event) => {
+      if (event.key === 'Escape') {
+        deleteParamInNavigation("photo");
+      }
+    };
+
+    document.addEventListener('keydown', handeKeyboardInput);
+    return () => {
+      document.removeEventListener('keydown', handeKeyboardInput);
+    };
+  },);
 
   return (
     <div>
@@ -60,8 +81,9 @@ const Home = () => {
         <h1>Photo Browser 2023</h1>
       </div>
       <PageSelector page={page} updatePageNumber={updatePageNumber} lastPage={lastPage} />
-      <ThumbnailGrid page={page} itemsPerPage={itemsPerPage} />
+      <ThumbnailGrid page={page} itemsPerPage={itemsPerPage} setParamInNavigation={setParamInNavigation} />
       <PageSelector page={page} updatePageNumber={updatePageNumber} lastPage={lastPage} />
+      {(photo !== null) && <Photo name={photo} />}
     </div>
   );
 };
