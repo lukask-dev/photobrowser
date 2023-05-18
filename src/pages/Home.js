@@ -78,7 +78,9 @@ const Home = () => {
   return (
     <div>
       <div className='logo-container'>
+        <a href = "/">
         <h1>Photo Browser 2023</h1>
+        </a>
       </div>
       <PageSelector page={page} updatePageNumber={updatePageNumber} lastPage={lastPage} />
       <ThumbnailGrid page={page} itemsPerPage={itemsPerPage} setParamInNavigation={setParamInNavigation} />
