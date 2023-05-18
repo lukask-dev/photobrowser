@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import ImageLoader from './ImageLoader';
 
-function ThumbnailGrid({ count, itemsPerPage }) {
+function ThumbnailGrid({ page, itemsPerPage }) {
   const [data, setData] = useState([]);  
 
   useEffect(() => {
-    const url = 'http://jsonplaceholder.typicode.com/photos?_page=' + count + '&_limit=' + itemsPerPage;
+    const url = 'http://jsonplaceholder.typicode.com/photos?_page=' + page + '&_limit=' + itemsPerPage;
     fetch(url)
       .then(response => response.json())
       .then(data => setData(data))
-      .catch(err => console.error("[Fetch Error]:", err));
-  }, [count, itemsPerPage]);
+      .catch(error => {alert('Error: ' + error.message);
+    });
+  }, [page, itemsPerPage]);
 
   function getPhotoNameFromUrl(url) {
     var segments = url.split("/");
