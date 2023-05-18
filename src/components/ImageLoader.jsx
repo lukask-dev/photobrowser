@@ -6,7 +6,7 @@ function ImageLoader({ imageUrl, size, alt, borderRadius }) { // size is used fo
 
   useEffect(() => {
     setIsLoading(true);
-    setCacheBuster(Date.now()); // Update cacheBuster with the current timestamp
+    setCacheBuster(Date.now());
   }, [imageUrl]);
 
   function handleImageLoad() {
@@ -30,7 +30,9 @@ function ImageLoader({ imageUrl, size, alt, borderRadius }) { // size is used fo
       }}
     >
       <img
-        src={`${imageUrl}?${cacheBuster}`}
+        // cacheBuster makes sure the image always loads, without this there are caching issues on chrome.
+        // I'm not happy with this solution, but decided it's better than having some images not load.
+        src={`${imageUrl}?${cacheBuster}`} 
         alt={alt}
         onLoad={handleImageLoad}
         style={{
