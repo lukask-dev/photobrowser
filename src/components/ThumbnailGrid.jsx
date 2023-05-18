@@ -64,6 +64,7 @@ function ThumbnailGrid({ page, itemsPerPage }) {
           <div
           className="thumbnail-item"
           key={item.id}
+          // could use this still to display 2 per row on mobile
           // style={{
           //   marginLeft: `${itemMargin}px`,
           //   marginRight: `${itemMargin}px`

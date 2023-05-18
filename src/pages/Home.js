@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ThumbnailGrid from '../components/ThumbnailGrid';
 import PageSelector from '../components/PageSelector';
-import Photo from './Photo';
+import Photo from '../components/Photo';
 
 const Home = () => {
   const location = useLocation();
