@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ThumbnailList from '../components/ThumbnailList';
+import ThumbnailGrid from '../components/ThumbnailGrid';
 import PageSelector from '../components/PageSelector';
 
 const Home = () => {
@@ -20,9 +20,11 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Photo Browser 2023</h1>
+      <div className='logo-container'>
+        <h1>Photo Browser 2023</h1>
+      </div>
       <PageSelector count={count} setCount={setCount} onPageChange={handlePageChange} lastPage={lastPage} />
-        <ThumbnailList count={count} itemsPerPage={itemsPerPage} />
+      <ThumbnailGrid count={count} itemsPerPage={itemsPerPage} />
       <PageSelector count={count} setCount={setCount} onPageChange={handlePageChange} lastPage={lastPage} />
     </div>
   );

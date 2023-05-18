@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ImageLoader from './ImageLoader';
 
-function ThumbnailItems({ count, itemsPerPage }) {
+function ThumbnailGrid({ count, itemsPerPage }) {
   const [data, setData] = useState([]);  
 
   useEffect(() => {
@@ -18,7 +18,7 @@ function ThumbnailItems({ count, itemsPerPage }) {
   }
 
   return (
-    <div className="thumbnail-list">
+    <div className="thumbnail-grid">
       {data.map(item => (
         <div className="thumbnail-item" key={item.id}>
           <a href={"photo/" + getPhotoNameFromUrl(item.url)}>
@@ -33,4 +33,4 @@ function ThumbnailItems({ count, itemsPerPage }) {
   );
 }
 
-export default ThumbnailItems;
+export default ThumbnailGrid;
