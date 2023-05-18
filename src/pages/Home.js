@@ -10,30 +10,6 @@ const Home = () => {
   const searchParams = new URLSearchParams(location.search);
 
   const itemsPerPage = 32;
-  const divWidth = 190;
-  const [gridWidth, setGridWidth] = useState(divWidth * calculateItemsPerRow());
-
-  function calculateItemsPerRow () {
-    const maxDivs = Math.floor(window.innerWidth / divWidth);
-    let maxDivsforLayout = 2;
-    while (maxDivsforLayout * 2 <= maxDivs) {
-      maxDivsforLayout *= 2;
-    }
-    return maxDivsforLayout;
-  }
-
-  useEffect(() => {
-    const handleResize = () => {
-      setGridWidth(divWidth * calculateItemsPerRow());
-    };
-
-    window.addEventListener('resize', handleResize);    
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
   const lastPage = Math.ceil(5000 / itemsPerPage);
 
   let page = null;
@@ -109,7 +85,7 @@ const Home = () => {
         </a>
       </div>
       <PageSelector page={page} updatePageNumber={updatePageNumber} lastPage={lastPage} />
-      <ThumbnailGrid page={page} itemsPerPage={itemsPerPage} gridWith={gridWidth} />
+      <ThumbnailGrid page={page} itemsPerPage={itemsPerPage} />
       <PageSelector page={page} updatePageNumber={updatePageNumber} lastPage={lastPage} />
       {(photo !== null) && <Photo name={photo} />}
     </div>
