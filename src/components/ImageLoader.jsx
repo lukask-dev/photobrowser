@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 function ImageLoader({ imageUrl, size, alt, borderRadius }) { // size is used for both width and height
   const [isLoading, setIsLoading] = useState(true);
+  const isChrome = /Chrome/.test(navigator.userAgent);
   const [cacheBuster, setCacheBuster] = useState('');
 
   useEffect(() => {
@@ -32,7 +33,7 @@ function ImageLoader({ imageUrl, size, alt, borderRadius }) { // size is used fo
       <img
         // cacheBuster makes sure the image always loads, without this there are caching issues on chrome.
         // I'm not happy with this solution, but decided it's better than having some images not load.
-        src={`${imageUrl}?${cacheBuster}`} 
+        src= {isChrome ? `${imageUrl}?${cacheBuster}` : imageUrl}        
         alt={alt}
         onLoad={handleImageLoad}
         style={{

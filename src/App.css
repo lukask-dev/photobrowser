@@ -37,7 +37,7 @@ a {
 }
 
 .thumbnail-item:hover {
-  opacity: 0.7;
+  filter: brightness(1.25);
 }
 
 .page-selector-container {
