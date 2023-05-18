@@ -7,8 +7,7 @@ function PageSelector({ page, updatePageNumber, lastPage }) {
 
   function handleInputFieldChange(event) {
     updatePageNumber(parseInt(event.target.value));
-  }  
-
+  }
   return (
     <div className="page-selector-container">
       <div className="page-selector">
@@ -20,7 +19,15 @@ function PageSelector({ page, updatePageNumber, lastPage }) {
         >
           <span className="arrow-left-icon"></span>
         </button>
-        <input className="page-input" type="text" value={page} onChange={handleInputFieldChange} inputMode="numeric" pattern="[0-9]* browsers" title="Enter page number" />
+        <input
+          className="page-input"
+          type="text"
+          value={page}
+          onChange={handleInputFieldChange}
+          inputMode="numeric"
+          pattern="[0-9]*"
+          title="Enter page number"
+        />
         <button
           onClick={() => updatePageNumber(Number(page) + Number(1))}
           className={rightButtonDisabled ? "button-disabled arrow-button-right" : "button arrow-button-right"}
