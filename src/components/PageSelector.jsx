@@ -8,6 +8,11 @@ function PageSelector({ page, updatePageNumber, lastPage }) {
   function handleInputFieldChange(event) {
     updatePageNumber(parseInt(event.target.value));
   }
+
+  function handleFocus(event) {
+    event.target.select();
+  }
+
   return (
     <div className="page-selector-container">
       <div className="page-selector">
@@ -24,6 +29,7 @@ function PageSelector({ page, updatePageNumber, lastPage }) {
           type="text"
           value={page}
           onChange={handleInputFieldChange}
+          onFocus={handleFocus}
           inputMode="numeric"
           pattern="[0-9]*"
           title="Enter page number"

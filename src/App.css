@@ -35,6 +35,20 @@ a {
   pointer-events:all;
 }
 
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  color: white;
+  border: none;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 .thumbnail-grid-container {
   display: flex;
   justify-content:center;

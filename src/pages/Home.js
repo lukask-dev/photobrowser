@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ThumbnailGrid from '../components/ThumbnailGrid';
 import PageSelector from '../components/PageSelector';
-import Photo from '../components/Photo';
+import PhotoView from '../components/PhotoView';
 
 const Home = () => {
   const location = useLocation();
@@ -35,13 +35,29 @@ const Home = () => {
     else photo = null;
   }
 
-  // not used any more: fixed number of items per page so that users can share links to pages with each other
+  // not used any more: instead, fixed number of items per page so that users can share links to pages with each other
   // function calculateItemsPerPage() {
   //   const windowWidth = window.innerWidth;
   //   const divWidth = 190;
   //   const rows = 2;
   //   return Math.floor(windowWidth / divWidth) * rows;
   // }
+
+  useEffect(() => {
+    const handeKeyboardInput = (event) => {
+      if (event.key === 'ArrowLeft') {
+        updatePageNumber(page - 1);
+      }
+      else if (event.key === 'ArrowRight') {
+        updatePageNumber(page + 1);
+      }
+    };
+
+    document.addEventListener('keydown', handeKeyboardInput);
+    return () => {
+      document.removeEventListener('keydown', handeKeyboardInput);
+    };
+  },);
 
   function updatePageNumber(newPage) {
     newPage = clamp(newPage, 1, lastPage);
@@ -56,26 +72,7 @@ const Home = () => {
     const searchParams = new URLSearchParams(location.search);
     searchParams.set(paramName, paramValue);
     navigate(`${location.pathname}?${searchParams.toString()}`);
-  }
-
-  function deleteParamInNavigation(paramName) {
-    const searchParams = new URLSearchParams(location.search);
-    searchParams.delete(paramName);
-    navigate(`${location.pathname}?${searchParams.toString()}`);
-  }
-
-  useEffect(() => {
-    const handeKeyboardInput = (event) => {
-      if (event.key === 'Escape') {
-        deleteParamInNavigation("photo");
-      }
-    };
-
-    document.addEventListener('keydown', handeKeyboardInput);
-    return () => {
-      document.removeEventListener('keydown', handeKeyboardInput);
-    };
-  },);
+  }  
 
   return (
     <div>
@@ -87,7 +84,7 @@ const Home = () => {
       <PageSelector page={page} updatePageNumber={updatePageNumber} lastPage={lastPage} />
       <ThumbnailGrid page={page} itemsPerPage={itemsPerPage} />
       <PageSelector page={page} updatePageNumber={updatePageNumber} lastPage={lastPage} />
-      {(photo !== null) && <Photo name={photo} />}
+      {(photo !== null) && <PhotoView name={photo} />}
     </div>
   );
 };
