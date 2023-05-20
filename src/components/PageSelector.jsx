@@ -5,8 +5,7 @@ function PageSelector({ page, setNewPageNumber, lastPage }) {
   const leftButtonDisabled = page <= 1;
   const rightButtonDisabled = page >= lastPage;
   const [inputFieldValue, setInputFieldValue] = useState(page);
-  const [inputFieldHasValidInput, setInputFieldHasValidInput] = useState(true);
-
+  const [inputFieldHasValidInput, setInputFieldHasValidInput] = useState(true);  
 
   function handleInputFieldChange(event) {
     const newValue = event.target.value;

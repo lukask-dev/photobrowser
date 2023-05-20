@@ -12,7 +12,7 @@ const Home = () => {
 
   const itemsPerPage = 32;
   const [photoCount, setPhotoCount] = useState(-1);
-  let lastPage = calculateLastPage();  
+  let lastPage = calculateLastPage();
 
   let page = null;
   let photo = null;
@@ -24,7 +24,7 @@ const Home = () => {
   function handlePageParam() {
     const pageParam = searchParams.get('page');
     if (Number.isInteger(Number(pageParam))) {
-      page = clamp(pageParam, 1, lastPage);
+      page = pageParam;
     }
     else {
       page = 1;
