@@ -31,7 +31,7 @@ function ThumbnailGrid({ page, itemsPerPage }) {
   }, []);
 
   useEffect(() => {
-    const url = 'http://jsonplaceholder.typicode.com/photos?_page=' + page + '&_limit=' + itemsPerPage;
+    const url = 'https://jsonplaceholder.typicode.com/photos?_page=' + page + '&_limit=' + itemsPerPage;
     fetch(url)
       .then(response => response.json())
       .then(data => setData(data))
