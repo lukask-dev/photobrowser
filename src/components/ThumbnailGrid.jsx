@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import ImageLoader from './ImageLoader';
 import { useLocation, Link } from 'react-router-dom';
 
-function ThumbnailGrid({ page, itemsPerPage }) {
+function ThumbnailGrid({ page, itemsPerPage, backendUrl }) {
   const [data, setData] = useState([]);
   const location = useLocation();
 
   const divWidth = 190;
   const [gridWidth, setGridWidth] = useState(divWidth * calculateItemsPerRow());
 
-  function calculateItemsPerRow () {
+  function calculateItemsPerRow() {
     const maxDivs = Math.floor(window.innerWidth / divWidth);
     let maxDivsforLayout = 2;
     while (maxDivsforLayout * 2 <= maxDivs) {
@@ -23,7 +23,7 @@ function ThumbnailGrid({ page, itemsPerPage }) {
       setGridWidth(divWidth * calculateItemsPerRow());
     };
 
-    window.addEventListener('resize', handleResize);    
+    window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -31,14 +31,14 @@ function ThumbnailGrid({ page, itemsPerPage }) {
   }, []);
 
   useEffect(() => {
-    const url = 'https://jsonplaceholder.typicode.com/photos?_page=' + page + '&_limit=' + itemsPerPage;
+    const url = backendUrl + '?_page=' + page + '&_limit=' + itemsPerPage;
     fetch(url)
       .then(response => response.json())
       .then(data => setData(data))
       .catch(error => {
         alert('Error: ' + error.message);
       });
-  }, [page, itemsPerPage]);
+  }, [page, itemsPerPage, backendUrl]);
 
   function getPhotoNameFromUrl(url) {
     var segments = url.split("/");
@@ -62,8 +62,8 @@ function ThumbnailGrid({ page, itemsPerPage }) {
       >
         {data.map(item => (
           <div
-          className="thumbnail-item"
-          key={item.id}
+            className="thumbnail-item"
+            key={item.id}
           // could use this still to display 2 per row on mobile
           // style={{
           //   marginLeft: `${itemMargin}px`,

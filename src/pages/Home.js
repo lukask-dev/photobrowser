@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import ThumbnailGrid from '../components/ThumbnailGrid';
 import PageSelector from '../components/PageSelector';
 import PhotoView from '../components/PhotoView';
@@ -8,15 +8,18 @@ const Home = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
+  const backendUrl = 'https://jsonplaceholder.typicode.com/photos';
 
   const itemsPerPage = 32;
-  const lastPage = Math.ceil(5000 / itemsPerPage);
+  const [photoCount, setPhotoCount] = useState(-1);
+  let lastPage = calculateLastPage();  
 
   let page = null;
   let photo = null;
 
+  if (photoCount === -1) fetchPhotoCount();
   handlePageParam();
-  handlePhotoParam();
+  handlePhotoParam();  
 
   function handlePageParam() {
     const pageParam = searchParams.get('page');
@@ -35,13 +38,30 @@ const Home = () => {
     else photo = null;
   }
 
+  function calculateLastPage() {
+    if (photoCount === -1) return 1;
+    return Math.ceil(photoCount / itemsPerPage);
+  }
+
+  function fetchPhotoCount() {
+    fetch(backendUrl)
+      .then(response => response.json())
+      .then(data => {
+        setPhotoCount(data.length);
+      })
+      .catch(error => {
+        alert('Error: ' + error.message);
+      });
+  }
+
+  // keyboard shortcuts
   useEffect(() => {
     const handeKeyboardInput = (event) => {
       if (event.key === 'ArrowLeft') {
-        updatePageNumber(page - 1);
+        setNewPageNumber(page - 1);
       }
       else if (event.key === 'ArrowRight') {
-        updatePageNumber(page + 1);
+        setNewPageNumber(page + 1);
       }
     };
 
@@ -51,7 +71,7 @@ const Home = () => {
     };
   },);
 
-  function updatePageNumber(newPage) {
+  function setNewPageNumber(newPage) {
     newPage = clamp(newPage, 1, lastPage);
     setParamInNavigation("page", newPage);
   }
@@ -64,19 +84,21 @@ const Home = () => {
     const searchParams = new URLSearchParams(location.search);
     searchParams.set(paramName, paramValue);
     navigate(`${location.pathname}?${searchParams.toString()}`);
-  }  
+  }
 
   return (
     <div>
       <div className='logo-container'>
-        <a href="/photobrowser">
+        <Link to="/photobrowser">
           <h1>Photo Browser 2023</h1>
-        </a>
+        </Link>
       </div>
-      <PageSelector page={page} updatePageNumber={updatePageNumber} lastPage={lastPage} />
-      <ThumbnailGrid page={page} itemsPerPage={itemsPerPage} />
-      <PageSelector page={page} updatePageNumber={updatePageNumber} lastPage={lastPage} />
-      {(photo !== null) && <PhotoView name={photo} />}
+      <main>
+        <PageSelector page={page} setNewPageNumber={setNewPageNumber} lastPage={lastPage} />
+        <ThumbnailGrid page={page} itemsPerPage={itemsPerPage} backendUrl={backendUrl} />
+        <PageSelector page={page} setNewPageNumber={setNewPageNumber} lastPage={lastPage} />
+        {(photo !== null) && <PhotoView name={photo} />}
+      </main>
       <div className='footer-space' ></div>
     </div>
   );

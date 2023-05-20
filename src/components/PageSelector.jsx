@@ -1,12 +1,12 @@
 import React from 'react';
 
-function PageSelector({ page, updatePageNumber, lastPage }) {
+function PageSelector({ page, setNewPageNumber, lastPage }) {
 
   const leftButtonDisabled = page <= 1;
   const rightButtonDisabled = page >= lastPage;
 
   function handleInputFieldChange(event) {
-    updatePageNumber(parseInt(event.target.value));
+    setNewPageNumber(parseInt(event.target.value));
   }
 
   function handleFocus(event) {
@@ -17,7 +17,7 @@ function PageSelector({ page, updatePageNumber, lastPage }) {
     <div className="page-selector-container">
       <div className="page-selector">
         <button
-          onClick={() => updatePageNumber(Number(page) - Number(1))}
+          onClick={() => setNewPageNumber(Number(page) - Number(1))}
           className={leftButtonDisabled ? "button-disabled arrow-button-left" : "button arrow-button-left"}
           title="Previous page"
           disabled={leftButtonDisabled}
@@ -35,7 +35,7 @@ function PageSelector({ page, updatePageNumber, lastPage }) {
           title="Enter page number"
         />
         <button
-          onClick={() => updatePageNumber(Number(page) + Number(1))}
+          onClick={() => setNewPageNumber(Number(page) + Number(1))}
           className={rightButtonDisabled ? "button-disabled arrow-button-right" : "button arrow-button-right"}
           title="Next page"
           disabled={rightButtonDisabled}
