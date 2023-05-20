@@ -3,16 +3,19 @@ body {
   color: #f2f2f2;
 }
 
-h1, h2, h3, h4, h5 {
+h1, h2, h3, h4, h5, h6 {
   color: #f2f2f2;
   margin-top: 16px;
+}
+
+h1 {
   margin-bottom: 40px;
 }
 
 h6 {
-  margin-bottom: 8px;
   font-weight: normal;
   font-size: inherit;
+  margin-bottom: 8px;
 }
 
 p {
@@ -84,9 +87,9 @@ a {
 }
 
 .button {
-  background-color: #9d9d9d;
+  background-color: #989898;
   border: none;
-  color: #333;
+  color: #222;
   padding-top: 10px;
   padding-bottom: 8px;
   font-size: 16px;
@@ -97,7 +100,7 @@ a {
 }
 
 .button:hover {
-  background-color: #ddd;
+  background-color: #c4c4c4;
 }
 
 .button-disabled {
@@ -142,6 +145,15 @@ a {
   transform: rotate(-45deg);
 }
 
+.button-copylink {
+  margin-bottom: 8px;
+  align-self: flex-end;
+  width: 10ch;
+  height: 3ch;
+  padding: 0px;
+  font-size: 14px;
+}
+
 .page-selector-container {
   display: flex;
   justify-content: center;
@@ -171,6 +183,16 @@ a {
 .photoview-textsection {
   padding-left: 12px;
   padding-right: 12px;
+}
+
+.photoview-bottomrow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.photoview-bottomrow-text {
+  align-self: flex-start;
 }
 
 input[type="text"] {

@@ -11,6 +11,7 @@ function PhotoView({ id, photosUrl, albumsUrl, usersUrl }) {
   const [altText, setAltText] = useState('Loading...');
   const [photoTitle, setPhotoTitle] = useState('');
   const [photoText, setPhotoText] = useState('');
+  const [copySuccess, setCopySuccess] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -80,6 +81,20 @@ function PhotoView({ id, photosUrl, albumsUrl, usersUrl }) {
       });
   }
 
+  function handleCopyLink() {
+    navigator.clipboard.writeText(window.location.href)
+      .then(() => {
+        setCopySuccess(true);
+        setTimeout(() => {
+          setCopySuccess(false);
+        }, 1200);
+      })
+      .catch((error) => {
+        alert('Failed to copy URL to clipboard:', error);
+      });
+  };
+
+
   return (
     <div className="overlay">
       <button className="close-button" onClick={closePhotoView}>
@@ -95,7 +110,12 @@ function PhotoView({ id, photosUrl, albumsUrl, usersUrl }) {
         <ImageLoader imageUrl={imageUrl} size={width} alt={altText} randomizeColor={false} />
         <div className='photoview-textsection'>
           <h2><TextLoader text={photoTitle} length={12} /></h2>
-          <h6><TextLoader text={photoText} length={55} /></h6>
+          <div class="photoview-bottomrow">
+            <h6 class="photoview-bottomrow-text"><TextLoader text={photoText} length={55} /></h6>
+            <button className="button button-copylink" onClick={handleCopyLink} title='Copy the link to this photo to the clipboard'>
+              {copySuccess ? 'Copied!' : 'Copy Link'}
+            </button>
+          </div>
         </div>
       </div>
     </div>
