@@ -77,6 +77,7 @@ const Home = () => {
       <ThumbnailGrid page={page} itemsPerPage={itemsPerPage} />
       <PageSelector page={page} updatePageNumber={updatePageNumber} lastPage={lastPage} />
       {(photo !== null) && <PhotoView name={photo} />}
+      <div className='footer-space' ></div>
     </div>
   );
 };

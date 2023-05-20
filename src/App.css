@@ -21,6 +21,10 @@ a {
   margin-left: 20px;
 }
 
+.footer-space {
+  margin-bottom: 20px;
+}
+
 .overlay {
   position: fixed;
   top: 0;
@@ -71,12 +75,6 @@ a {
 
 .thumbnail-item:hover {
   filter: brightness(1.25);
-}
-
-.page-selector-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .button {
@@ -136,6 +134,12 @@ a {
 
 .arrow-right-icon {
   transform: rotate(-45deg);
+}
+
+.page-selector-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .page-input {
