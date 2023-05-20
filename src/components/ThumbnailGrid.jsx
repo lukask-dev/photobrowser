@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ImageLoader from './ImageLoader';
 import { useLocation, Link } from 'react-router-dom';
 
-function ThumbnailGrid({ page, itemsPerPage, backendUrl }) {
+function ThumbnailGrid({ page, itemsPerPage, photosUrl }) {
   const [data, setData] = useState([]);
   const location = useLocation();
 
@@ -31,24 +31,18 @@ function ThumbnailGrid({ page, itemsPerPage, backendUrl }) {
   }, []);
 
   useEffect(() => {
-    const url = backendUrl + '?_page=' + page + '&_limit=' + itemsPerPage;
+    const url = photosUrl + '?_page=' + page + '&_limit=' + itemsPerPage;
     fetch(url)
       .then(response => response.json())
       .then(data => setData(data))
       .catch(error => {
         alert('Error: ' + error.message);
       });
-  }, [page, itemsPerPage, backendUrl]);
+  }, [page, itemsPerPage, photosUrl]);
 
-  function getPhotoNameFromUrl(url) {
-    var segments = url.split("/");
-    return segments[segments.length - 1];
-  }
-
-  function getPhotoLink(photoUrl) {
-    const photoName = getPhotoNameFromUrl(photoUrl);
+  function getPhotoLink(photoId) {
     const searchParams = new URLSearchParams(location.search);
-    searchParams.set("photo", photoName);
+    searchParams.set("photo", photoId);
     return location.pathname + "?" + searchParams.toString();
   }
 
@@ -70,9 +64,9 @@ function ThumbnailGrid({ page, itemsPerPage, backendUrl }) {
           //   marginRight: `${itemMargin}px`
           // }}
           >
-            <Link to={getPhotoLink(item.url)}>
+            <Link to={getPhotoLink(item.id)}>
               <div className="thumbnail-image">
-                <ImageLoader imageUrl={item.thumbnailUrl} size="150" alt={item.title} borderRadius="10" />
+                <ImageLoader imageUrl={item.thumbnailUrl} size="150" alt={item.title} borderRadius="10" randomizeColor={true} />
               </div>
               <p>{item.title}</p>
             </Link>

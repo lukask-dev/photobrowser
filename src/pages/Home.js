@@ -8,21 +8,27 @@ const Home = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
-  const backendUrl = 'https://jsonplaceholder.typicode.com/photos';
 
+  const photosUrl = 'https://jsonplaceholder.typicode.com/photos';
+  const albumsUrl = 'https://jsonplaceholder.typicode.com/albums';
+  const usersUrl = 'https://jsonplaceholder.typicode.com/users';
   const itemsPerPage = 32;
   const [photoCount, setPhotoCount] = useState(-1);
   let lastPage = calculateLastPage();
-
   let page = handlePageParam();
+  let photo = handlePhotoParam();
 
-  let photo = handlePhotoParam();  
-  if (photoCount === -1) fetchPhotoCount();
+  useEffect(() => {
+    initialize();
+  },);
+  const initialize = () => {
+    fetchPhotoCount();
+  };
 
   function handlePageParam() {
     if (searchParams.has('page')) {
       const pageParam = searchParams.get('page');
-      const number = Number(pageParam);
+      const number = parseInt(pageParam);
       if (Number.isInteger(number) && number > 0) {
         return pageParam;
       }
@@ -31,12 +37,13 @@ const Home = () => {
   }
 
   function handlePhotoParam() {
-    const photoParam = searchParams.get('photo');
-    const isValidPhoto = typeof photoParam === 'string' && photoParam.length > 0;
-    if (isValidPhoto) {
-      return photoParam;
+    if (searchParams.has('photo')) {
+      const photoParam = searchParams.get('photo');
+      if (Number.isInteger(parseInt(photoParam))) {
+        return photoParam;
+      }      
     }
-    return null;
+    return -1;
   }
 
   function calculateLastPage() {
@@ -45,7 +52,7 @@ const Home = () => {
   }
 
   function fetchPhotoCount() {
-    fetch(backendUrl)
+    fetch(photosUrl)
       .then(response => response.json())
       .then(data => {
         setPhotoCount(data.length);
@@ -96,9 +103,9 @@ const Home = () => {
       </div>
       <main>
         <PageSelector page={page} setNewPageNumber={setNewPageNumber} lastPage={lastPage} />
-        <ThumbnailGrid page={page} itemsPerPage={itemsPerPage} backendUrl={backendUrl} />
+        <ThumbnailGrid page={page} itemsPerPage={itemsPerPage} photosUrl={photosUrl} />
         <PageSelector page={page} setNewPageNumber={setNewPageNumber} lastPage={lastPage} />
-        {(photo !== null) && <PhotoView name={photo} />}
+        {(photo !== -1) && <PhotoView id={photo} photosUrl={photosUrl} albumsUrl={albumsUrl} usersUrl={usersUrl} />}
       </main>
       <div className='footer-space' ></div>
     </div>

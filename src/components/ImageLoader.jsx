@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function ImageLoader({ imageUrl, size, alt, borderRadius }) { // size is used for both width and height
+function ImageLoader({ imageUrl, size, alt, borderRadius, randomizeColor }) { // size is used for both width and height
   const [isLoading, setIsLoading] = useState(true);
   const isChrome = /Chrome/.test(navigator.userAgent);
   const [cacheBuster, setCacheBuster] = useState('');
@@ -12,6 +12,10 @@ function ImageLoader({ imageUrl, size, alt, borderRadius }) { // size is used fo
 
   function handleImageLoad() {
     setIsLoading(false);
+  }
+
+  function getColor() {
+    return randomizeColor ? generateRandomGrey() : '#333';
   }
 
   function generateRandomGrey() {
@@ -27,23 +31,25 @@ function ImageLoader({ imageUrl, size, alt, borderRadius }) { // size is used fo
         width: `${size}px`,
         height: `${size}px`,
         borderRadius: `${borderRadius}px`,
-        backgroundColor: generateRandomGrey()
+        backgroundColor: getColor(),
       }}
     >
-      <img
-        // cacheBuster makes sure the image always loads, without this there are caching issues on chrome.
-        // I'm not happy with this solution, but decided it's better than having some images not load.
-        src= {isChrome ? `${imageUrl}?${cacheBuster}` : imageUrl}        
-        alt={alt}
-        onLoad={handleImageLoad}
-        style={{
-          width: `${size}px`,
-          height: `${size}px`,
-          borderRadius: `${borderRadius}px`,
-          opacity: isLoading ? 0 : 1,
-          transition: 'opacity 0.3s ease-in',
-        }}
-      />
+      {imageUrl &&
+        <img
+          // cacheBuster makes sure the image always loads, without this there are caching issues on chrome.
+          // I'm not happy with this solution, but decided it's better than having some images not load.
+          src={isChrome ? `${imageUrl}?${cacheBuster}` : imageUrl}
+          alt={alt}
+          onLoad={handleImageLoad}
+          style={{
+            width: `${size}px`,
+            height: `${size}px`,
+            borderRadius: `${borderRadius}px`,
+            opacity: isLoading ? 0 : 1,
+            transition: 'opacity 0.3s ease-in',
+          }}
+        />
+      }
     </div>
   )
 }
