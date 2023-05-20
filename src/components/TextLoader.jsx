@@ -2,9 +2,6 @@ import React from 'react';
 
 function TextLoader({ text, length }) {
 
-    const textStyle = {
-    };
-
     const placeHolderStyle = {
         backgroundColor: '#333',
         height: '2ch',
@@ -14,7 +11,7 @@ function TextLoader({ text, length }) {
 
     return (
         <div
-            style={text ? textStyle : placeHolderStyle} >
+            style={text ? null : placeHolderStyle} >
             {text}
         </div>
     );

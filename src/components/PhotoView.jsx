@@ -73,7 +73,6 @@ function PhotoView({ id, photosUrl, albumsUrl, usersUrl }) {
     fetch(`${usersUrl}/${userId}`)
       .then(response => response.json())
       .then(userObject => {
-        console.log(userObject);
         setPhotoText("By " + userObject.name + " from " + userObject.address.city);
       })
       .catch(error => {
@@ -96,7 +95,7 @@ function PhotoView({ id, photosUrl, albumsUrl, usersUrl }) {
         <ImageLoader imageUrl={imageUrl} size={width} alt={altText} randomizeColor={false} />
         <div className='photoview-textsection'>
           <h2><TextLoader text={photoTitle} length={12} /></h2>
-          <p><TextLoader text={photoText} length={55} /></p>
+          <h6><TextLoader text={photoText} length={55} /></h6>
         </div>
       </div>
     </div>
