@@ -35,14 +35,6 @@ const Home = () => {
     else photo = null;
   }
 
-  // not used any more: instead, fixed number of items per page so that users can share links to pages with each other
-  // function calculateItemsPerPage() {
-  //   const windowWidth = window.innerWidth;
-  //   const divWidth = 190;
-  //   const rows = 2;
-  //   return Math.floor(windowWidth / divWidth) * rows;
-  // }
-
   useEffect(() => {
     const handeKeyboardInput = (event) => {
       if (event.key === 'ArrowLeft') {

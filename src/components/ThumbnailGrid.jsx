@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ImageLoader from './ImageLoader';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 
 function ThumbnailGrid({ page, itemsPerPage }) {
   const [data, setData] = useState([]);
@@ -70,12 +70,12 @@ function ThumbnailGrid({ page, itemsPerPage }) {
           //   marginRight: `${itemMargin}px`
           // }}
           >
-            <a href={getPhotoLink(item.url)}>
+            <Link to={getPhotoLink(item.url)}>
               <div className="thumbnail-image">
                 <ImageLoader imageUrl={item.thumbnailUrl} size="150" alt={item.title} borderRadius="10" />
               </div>
               <p>{item.title}</p>
-            </a>
+            </Link>
           </div>
         ))}
       </div>
