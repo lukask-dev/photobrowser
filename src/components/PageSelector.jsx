@@ -4,14 +4,19 @@ function PageSelector({ page, setNewPageNumber, lastPage }) {
 
   const leftButtonDisabled = page <= 1;
   const rightButtonDisabled = page >= lastPage;
-  const [inputFieldValue, setInputFieldValue] = useState(page.toString());  
+  const [inputFieldValue, setInputFieldValue] = useState(page);
+  const [inputFieldHasValidInput, setInputFieldHasValidInput] = useState(true);
+
 
   function handleInputFieldChange(event) {
     const newValue = event.target.value;
     setInputFieldValue(newValue);
-    const parsed = parseInt(newValue);
-    if (parsed && parsed > 0)
+    const parsedValue = parseInt(newValue);
+    if (parsedValue && parsedValue >= 1 && parsedValue <= lastPage) {
       setNewPageNumber(parseInt(newValue));
+      setInputFieldHasValidInput(true);
+    }
+    else setInputFieldHasValidInput(false);
   }
 
   function handeArrowClick(newPageNumber) {
@@ -19,13 +24,25 @@ function PageSelector({ page, setNewPageNumber, lastPage }) {
     setNewPageNumber(newPageNumber);
   }
 
-  function handleFocus(event) {
+  function handleInputFieldFocus(event) {
     event.target.select();
   }
 
-  function handleBlur(event) {
-    if (inputFieldValue !== page)
+  function handleInputFieldBlur(event) {
+    updatePageNumberToInputField();
+  }
+
+  function handleInputFieldKeyDown(event) {
+    if (event.key === 'Enter') {
+      updatePageNumberToInputField();
+    }
+  }
+
+  function updatePageNumberToInputField () {
+    if (inputFieldValue !== page) {
       setInputFieldValue(page);
+      setInputFieldHasValidInput(true);
+    }
   }
 
   return (
@@ -40,12 +57,13 @@ function PageSelector({ page, setNewPageNumber, lastPage }) {
           <span className="arrow-left-icon"></span>
         </button>
         <input
-          className="page-input"
+          className={inputFieldHasValidInput ? 'page-input' : 'page-input page-input-invalid'}
           type="text"
           value={inputFieldValue}
           onChange={handleInputFieldChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
+          onFocus={handleInputFieldFocus}
+          onBlur={handleInputFieldBlur}
+          onKeyDown={handleInputFieldKeyDown}
           inputMode="numeric"
           pattern="[0-9]*"
           title="Enter page number"

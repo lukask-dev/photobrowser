@@ -154,6 +154,10 @@ a {
   margin-right: 4px;
 }
 
+.page-input-invalid {
+  background-color: rgb(152, 27, 13)!important;
+}
+
 input[type="text"] {
   background-color: #212121;
   color: #f2f2f2;
