@@ -13,29 +13,30 @@ const Home = () => {
   const itemsPerPage = 32;
   const [photoCount, setPhotoCount] = useState(-1);
   let lastPage = calculateLastPage();
-
-  let page = null;
-  let photo = null;
+  
+  let page = handlePageParam();
+  let photo = handlePhotoParam();
 
   if (photoCount === -1) fetchPhotoCount();
-  handlePageParam();
-  handlePhotoParam();  
 
   function handlePageParam() {
-    const pageParam = searchParams.get('page');
-    if (Number.isInteger(Number(pageParam))) {
-      page = pageParam;
+    if (searchParams.has('page')) {
+      const pageParam = searchParams.get('page');
+      const number = Number(pageParam);
+      if (Number.isInteger(number) && number > 0) {
+        return pageParam;
+      }
     }
-    else {
-      page = 1;
-    }
+    return 1;
   }
 
   function handlePhotoParam() {
     const photoParam = searchParams.get('photo');
     const isValidPhoto = typeof photoParam === 'string' && photoParam.length > 0;
-    if (isValidPhoto) photo = photoParam;
-    else photo = null;
+    if (isValidPhoto) {
+      return photoParam;
+    }
+    return null;
   }
 
   function calculateLastPage() {
@@ -64,7 +65,6 @@ const Home = () => {
         setNewPageNumber(page + 1);
       }
     };
-
     document.addEventListener('keydown', handeKeyboardInput);
     return () => {
       document.removeEventListener('keydown', handeKeyboardInput);
@@ -74,6 +74,7 @@ const Home = () => {
   function setNewPageNumber(newPage) {
     newPage = clamp(newPage, 1, lastPage);
     setParamInNavigation("page", newPage);
+    page = newPage;
   }
 
   function clamp(value, min, max) {
@@ -89,9 +90,9 @@ const Home = () => {
   return (
     <div>
       <div className='logo-container'>
-        <Link to="/photobrowser">
+        <a href="/photobrowser">
           <h1>Photo Browser 2023</h1>
-        </Link>
+        </a>
       </div>
       <main>
         <PageSelector page={page} setNewPageNumber={setNewPageNumber} lastPage={lastPage} />
