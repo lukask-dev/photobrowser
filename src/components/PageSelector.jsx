@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function PageSelector({ page, setNewPageNumber, lastPage }) {
 
@@ -6,6 +6,13 @@ function PageSelector({ page, setNewPageNumber, lastPage }) {
   const rightButtonDisabled = page >= lastPage;
   const [inputFieldValue, setInputFieldValue] = useState(page);
   const [inputFieldHasValidInput, setInputFieldHasValidInput] = useState(true);
+
+  useEffect(() => {
+    handlePageChanged(page);
+  }, [page] );
+  function handlePageChanged (page) {
+    setInputFieldValue(page);
+  };
 
   function handleInputFieldChange(event) {
     const newValue = event.target.value;

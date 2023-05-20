@@ -13,10 +13,10 @@ const Home = () => {
   const itemsPerPage = 32;
   const [photoCount, setPhotoCount] = useState(-1);
   let lastPage = calculateLastPage();
-  
-  let page = handlePageParam();
-  let photo = handlePhotoParam();
 
+  let page = handlePageParam();
+
+  let photo = handlePhotoParam();  
   if (photoCount === -1) fetchPhotoCount();
 
   function handlePageParam() {
@@ -90,9 +90,9 @@ const Home = () => {
   return (
     <div>
       <div className='logo-container'>
-        <a href="/photobrowser">
+        <Link to="/photobrowser">
           <h1>Photo Browser 2023</h1>
-        </a>
+        </Link>
       </div>
       <main>
         <PageSelector page={page} setNewPageNumber={setNewPageNumber} lastPage={lastPage} />
