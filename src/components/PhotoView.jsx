@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ImageLoader from './ImageLoader';
+import TextLoader from './TextLoader';
 
 function PhotoView({ id, photosUrl, albumsUrl, usersUrl }) {
   const location = useLocation();
@@ -8,8 +9,8 @@ function PhotoView({ id, photosUrl, albumsUrl, usersUrl }) {
   const [width, setWidth] = useState(Math.min(600, window.innerWidth));
   const [imageUrl, setImageUrl] = useState('');
   const [altText, setAltText] = useState('Loading...');
-  const [photoTitle, setPhotoTitle] = useState('Loading...');
-  const [photoText, setPhotoText] = useState('Loading...');
+  const [photoTitle, setPhotoTitle] = useState('');
+  const [photoText, setPhotoText] = useState('');
 
   useEffect(() => {
     const handleResize = () => {
@@ -59,25 +60,25 @@ function PhotoView({ id, photosUrl, albumsUrl, usersUrl }) {
 
   function fetchAlbum(albumId) {
     fetch(`${albumsUrl}/${albumId}`)
-    .then(response => response.json())
-    .then(albumObject => {
-      fetchUser(albumObject.userId);
-    })
-    .catch(error => {
-      alert('Error fetching album data:', error);
-    });
+      .then(response => response.json())
+      .then(albumObject => {
+        fetchUser(albumObject.userId);
+      })
+      .catch(error => {
+        alert('Error fetching album data:', error);
+      });
   }
 
   function fetchUser(userId) {
     fetch(`${usersUrl}/${userId}`)
-    .then(response => response.json())
-    .then(userObject => {
-      console.log(userObject);
-      setPhotoText("By " + userObject.name + " from " + userObject.address.city);
-    })
-    .catch(error => {
-      alert('Error fetching user data:', error);
-    });
+      .then(response => response.json())
+      .then(userObject => {
+        console.log(userObject);
+        setPhotoText("By " + userObject.name + " from " + userObject.address.city);
+      })
+      .catch(error => {
+        alert('Error fetching user data:', error);
+      });
   }
 
   return (
@@ -87,14 +88,16 @@ function PhotoView({ id, photosUrl, albumsUrl, usersUrl }) {
       </button>
 
       <div
-        className="photo-container"
+        className="photoview-container"
         style={{
           width: `${width}px`
         }}
       >
         <ImageLoader imageUrl={imageUrl} size={width} alt={altText} randomizeColor={false} />
-        <h2>{photoTitle}</h2>
-        <p>{photoText}</p>
+        <div className='photoview-textsection'>
+          <h2><TextLoader text={photoTitle} length={12} /></h2>
+          <p><TextLoader text={photoText} length={55} /></p>
+        </div>
       </div>
     </div>
   );
