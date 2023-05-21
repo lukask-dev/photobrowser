@@ -41,7 +41,7 @@ const Home = () => {
       const photoParam = searchParams.get('photo');
       if (Number.isInteger(parseInt(photoParam))) {
         return photoParam;
-      }      
+      }
     }
     return -1;
   }
@@ -65,11 +65,13 @@ const Home = () => {
   // keyboard shortcuts
   useEffect(() => {
     const handeKeyboardInput = (event) => {
-      if (event.key === 'ArrowLeft') {
-        setNewPageNumber(page - 1);
-      }
-      else if (event.key === 'ArrowRight') {
-        setNewPageNumber(page + 1);
+      if (photo === -1) {
+        if (event.key === 'ArrowLeft') {
+          setNewPageNumber(Number(page) - Number(1));
+        }
+        else if (event.key === 'ArrowRight') {
+          setNewPageNumber(Number(page) + Number(1));
+        }
       }
     };
     document.addEventListener('keydown', handeKeyboardInput);

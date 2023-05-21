@@ -13,25 +13,31 @@ function PhotoView({ id, photosUrl, albumsUrl, usersUrl }) {
   const [photoText, setPhotoText] = useState('');
   const [copySuccess, setCopySuccess] = useState(false);
 
+  // open and close component
   useEffect(() => {
     const handleResize = () => {
       setWidth(Math.min(600, window.innerWidth));
     };
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
     const handeKeyboardInput = (event) => {
       if (event.key === 'Escape') {
         closePhotoView();
       }
     };
+    window.addEventListener('resize', handleResize);
     document.addEventListener('keydown', handeKeyboardInput);
+
+    
+    document.body.style.top = `-${window.scrollY}px`;
+    document.body.style.position = 'fixed';
+
     return () => {
       document.removeEventListener('keydown', handeKeyboardInput);
+      window.removeEventListener('resize', handleResize);
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      
     };
   },);
 
