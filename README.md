@@ -1,5 +1,5 @@
 # Instructions
-You can find the live version of the project [here](https://lukask-dev.github.io/photobrowser/).
+You can use the live version of the project [here](https://lukask-dev.github.io/photobrowser/).
 
 #### Keyboard Shortcuts
 - Thumbnail view: Arrow keys right/left for next/previous page
