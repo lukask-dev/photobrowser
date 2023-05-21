@@ -117,7 +117,7 @@ function PhotoView({ id, photosUrl, albumsUrl, usersUrl }) {
         <div className='photoview-textsection'>
           <h2><TextLoader text={photoTitle} length={12} /></h2>
           <div class="photoview-bottomrow">
-            <h6 class="photoview-bottomrow-text"><TextLoader text={photoText} length={55} /></h6>
+            <h6 class="photoview-bottomrow-text"><TextLoader text={photoText} length={35} /></h6>
             <button className="button button-copylink" onClick={handleCopyLink} title='Copy the link to this photo to the clipboard'>
               {copySuccess ? 'Copied!' : 'Copy Link'}
             </button>
