@@ -24,6 +24,7 @@ Here are some features and known issues that I would take care of with the persp
 
 #### Developer-friendliness
 - Convert the project to TypeScript
+- Set up unit tests
 - Move component-specific CSS to separate files
 
 
